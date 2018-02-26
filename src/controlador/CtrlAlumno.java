@@ -80,6 +80,7 @@ public class CtrlAlumno implements ActionListener {
         dlgalumno.btnBajas.addActionListener(this);
         dlgalumno.btnModificaciones.addActionListener(this);
         dlgalumno.btnSeleccionar.addActionListener(this);
+        dlgalumno.getBtnImprimir().addActionListener(this); 
 
         //Agrega un oyente a la lista que se notifica cada vez que se produce un cambio en el modelo de datos.
         dlgalumno.TablaAlumnos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
