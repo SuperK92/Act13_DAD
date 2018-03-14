@@ -32,7 +32,7 @@ public class ClaseDatos {
         _puerto="3306";
         _basedatos = "libros";
         _usuario = "root";
-        _clave = "";
+        _clave = "1234";
         conn = null;
     }
 

@@ -4,18 +4,23 @@
  */
 package controlador;
 
+import Informes.Informes;
 import conexion.ClaseDatos;
 import modelo.NegAlumnos;
 import datos.Alumno;
 import vista.DlgAlumno;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -80,7 +85,7 @@ public class CtrlAlumno implements ActionListener {
         dlgalumno.btnBajas.addActionListener(this);
         dlgalumno.btnModificaciones.addActionListener(this);
         dlgalumno.btnSeleccionar.addActionListener(this);
-        dlgalumno.getBtnImprimir().addActionListener(this); 
+        dlgalumno.getBtnImprimir().addActionListener(this);
 
         //Agrega un oyente a la lista que se notifica cada vez que se produce un cambio en el modelo de datos.
         dlgalumno.TablaAlumnos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -284,12 +289,10 @@ public class CtrlAlumno implements ActionListener {
                 currentAlumno.setNombre(dlgalumno.getTxtNombre().getText());
                 currentAlumno.setApellido1(dlgalumno.getTxtApellido1().getText());
                 currentAlumno.setApellido2(dlgalumno.getTxtApellido2().getText());
-             
-                 negalumnos.Modificar(currentAlumno);
-                 rsmodel.fireTableDataChanged(); //Notifica a todos los oyentes que todos los valores de celda en las filas de la tabla pueden haber cambiado.
+
+                negalumnos.Modificar(currentAlumno);
+                rsmodel.fireTableDataChanged(); //Notifica a todos los oyentes que todos los valores de celda en las filas de la tabla pueden haber cambiado.
                 //también puedo solo actualizar la fila en concreto
-                
-          
 
                 //Arregla esta funcion
                 /////////////////////////////////////////////////////////////////////////////
@@ -302,6 +305,18 @@ public class CtrlAlumno implements ActionListener {
         } else if (e.getSource() == dlgalumno.getBtnSeleccionar()) {
 
             dlgalumno.setVisible(false);
+
+        } else if (e.getSource() == dlgalumno.getBtnImprimir()) {
+            
+            Informes info = new Informes();
+            //String rutainfo = System.getProperty("user.dir") + "/src/Informes/info_alumnos.jasper";
+            try {
+                info.generarReporte("Alumno", "src/Informes/info_alumnos.jasper");
+            } catch (SQLException ex) {
+                Logger.getLogger(CtrlAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JRException ex) {
+                Logger.getLogger(CtrlAlumno.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
 
